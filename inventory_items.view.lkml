@@ -12,6 +12,12 @@ view: inventory_items {
     sql: ${TABLE}.cost ;;
   }
 
+  measure: total_cost {
+    type: sum
+    label: "Total Cost"
+    sql: ${cost} ;;
+  }
+
   dimension_group: created {
     type: time
     timeframes: [
@@ -60,6 +66,12 @@ view: inventory_items {
   dimension: product_retail_price {
     type: number
     sql: ${TABLE}.product_retail_price ;;
+  }
+
+  measure: total_retail_price {
+    type: sum
+    label: "Total Retail Price"
+    sql: ${product_retail_price} ;;
   }
 
   dimension: product_sku {

@@ -3,12 +3,12 @@ connection: "thelook_events"
 # include all the views
 include: "*.view"
 
-datagroup: thelook_grojean_default_datagroup {
-  # sql_trigger: SELECT MAX(id) FROM etl_log;;
-  max_cache_age: "1 hour"
+datagroup: transaction_datagroup {
+  sql_trigger: SELECT MAX(created_date) FROM order_items;;
+  max_cache_age: "4 hours"
 }
 
-persist_with: thelook_grojean_default_datagroup
+# persist_with: transaction_datagroup
 
 explore: bsandell {}
 
@@ -39,6 +39,7 @@ explore: inventory_items {
 }
 
 explore: order_items {
+  persist_with: transaction_datagroup
   join: users {
     type: left_outer
     sql_on: ${order_items.user_id} = ${users.id} ;;
@@ -51,15 +52,9 @@ explore: order_items {
     relationship: many_to_one
   }
 
-  join: products {
-    type: left_outer
-    sql_on: ${inventory_items.product_id} = ${products.id} ;;
-    relationship: many_to_one
-  }
-
   join: distribution_centers {
     type: left_outer
-    sql_on: ${products.distribution_center_id} = ${distribution_centers.id} ;;
+    sql_on: ${inventory_items.product_distribution_center_id} = ${distribution_centers.id} ;;
     relationship: many_to_one
   }
 }
