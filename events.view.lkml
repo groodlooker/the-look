@@ -93,6 +93,12 @@ view: events {
     sql: ${TABLE}.user_id ;;
   }
 
+  dimension: known_user {
+    label: "User is Known"
+    type: yesno
+    sql: ${user_id} >= 0 ;;
+  }
+
   dimension: zip {
     type: zipcode
     sql: ${TABLE}.zip ;;
@@ -102,4 +108,5 @@ view: events {
     type: count
     drill_fields: [id, users.id, users.first_name, users.last_name]
   }
+
 }

@@ -15,6 +15,7 @@ view: inventory_items {
   measure: total_cost {
     type: sum
     label: "Total Cost"
+    value_format_name: usd
     sql: ${cost} ;;
   }
 
@@ -71,12 +72,26 @@ view: inventory_items {
   measure: total_retail_price {
     type: sum
     label: "Total Retail Price"
+    value_format_name: usd
     sql: ${product_retail_price} ;;
   }
 
   dimension: product_sku {
     type: string
     sql: ${TABLE}.product_sku ;;
+  }
+
+  dimension: season {
+    type: string
+    label: "Season?"
+    sql: case
+          when ${product_category} in ('Fashion Hoodies & Sweatshirts', 'Outerwear & Coats', 'Sweaters', 'Leggings')
+            then 'Winter Wear'
+          when ${product_category} in ('Swim', 'Tops & Tees', 'Shorts', 'Skirts')
+            then 'Summer Wear'
+          else 'Year Round'
+        end
+            ;;
   }
 
   dimension_group: sold {
