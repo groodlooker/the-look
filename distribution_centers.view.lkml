@@ -30,6 +30,7 @@ view: distribution_centers {
   }
 
   measure: count {
+    label: "Distribution Count"
     type: count
     drill_fields: [id, name, products.count]
   }

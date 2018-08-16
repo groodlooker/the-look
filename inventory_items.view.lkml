@@ -76,6 +76,20 @@ view: inventory_items {
     sql: ${product_retail_price} ;;
   }
 
+  measure: min_retail_price {
+    type: min
+    label: "Lowest Retail Price"
+    sql: ${product_retail_price} ;;
+  }
+
+  measure: avg_retail_price {
+    type: average
+    label: "Average Retail Price"
+    value_format_name: usd
+    description: "This shows average price of an item, use it to see if people are buying more or less expensive items"
+    sql: ${product_retail_price} ;;
+  }
+
   dimension: product_sku {
     type: string
     sql: ${TABLE}.product_sku ;;
@@ -108,7 +122,14 @@ view: inventory_items {
     sql: ${TABLE}.sold_at ;;
   }
 
+  measure: last_transaction {
+    type: max
+    label: "Most Recent Purchase Date"
+    sql: ${sold_date} ;;
+  }
+
   measure: count {
+    label: "Inventory Count"
     type: count
     drill_fields: [id, product_name, products.id, products.name, order_items.count]
   }
