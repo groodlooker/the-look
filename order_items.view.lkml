@@ -13,8 +13,12 @@ view: order_items {
       raw,
       time,
       date,
+      day_of_year,
+      day_of_week,
       week,
+      week_of_year,
       month,
+      month_name,
       quarter,
       year
     ]
@@ -106,6 +110,12 @@ view: order_items {
       value: "yes"
     }
     sql: ${sale_price} ;;
+  }
+
+  dimension: ytd {
+    type: yesno
+    label: "Filter Year to Date?"
+    sql: ${created_day_of_year} <= datepart('doy',getdate()) ;;
   }
 
   measure: yoy_diff {
