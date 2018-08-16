@@ -23,6 +23,12 @@ view: events {
     sql: ${TABLE}.country ;;
   }
 
+  dimension: browser_gender {
+    type: string
+    label: "Which Genders use which Browsers"
+    sql: ${browser} || ${users.gender} ;;
+  }
+
   dimension_group: created {
     type: time
     timeframes: [

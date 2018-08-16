@@ -73,6 +73,7 @@ view: inventory_items {
     type: sum
     label: "Total Retail Price"
     value_format_name: usd
+    drill_fields: [product_category, created_year]
     sql: ${product_retail_price} ;;
   }
 

@@ -65,6 +65,55 @@ view: order_items {
     sql: ${TABLE}.sale_price ;;
   }
 
+  measure: total_sale_price {
+    type: sum
+    label: "Total Order Amount"
+    sql: ${sale_price} ;;
+  }
+
+  dimension: created_ty {
+    hidden: yes
+    type: yesno
+    sql: ${created_year} = 2018 ;;
+  }
+
+  dimension: created_ly {
+    hidden: yes
+    type: yesno
+    sql: ${created_year} = 2017 ;;
+  }
+
+  measure: sale_price_ty {
+    type: sum
+    value_format_name: usd
+    label: "This Year Sales"
+    filters: {
+      field: created_ty
+      value: "yes"
+    }
+    sql: ${sale_price} ;;
+  }
+
+  measure: sale_price_ly {
+    type: sum
+    value_format_name: usd
+    label: "Last Year Sales"
+    filters: {
+      field: created_ly
+      value: "yes"
+    }
+    sql: ${sale_price} ;;
+  }
+
+  measure: yoy_diff {
+    type: number
+    label: "Difference in Sales Year Over Year"
+    value_format_name: usd
+    drill_fields: [inventory_item_id]
+    sql: ${sale_price_ty} - ${sale_price_ly} ;;
+  }
+
+
   dimension_group: shipped {
     type: time
     timeframes: [
